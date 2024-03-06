@@ -16,6 +16,7 @@ import java.util.Date;
 
 @WebServlet(urlPatterns = {"/manager"})
 public class FileManagerServlet extends HttpServlet {
+    //Файловый мэнеджер
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws IOException, ServletException {
@@ -57,7 +58,7 @@ public class FileManagerServlet extends HttpServlet {
         httpServletRequest.getRequestDispatcher("manager.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
-    //sign out
+    //Выход из системы
     public void doPost(HttpServletRequest httpServletRequest,
                        HttpServletResponse httpServletResponse) throws IOException {
         String sessionId = httpServletRequest.getSession().getId();

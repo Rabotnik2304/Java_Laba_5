@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.io.IOException;
+
 @WebServlet(urlPatterns = {"/registration"})
 public class UsersServlet extends HttpServlet {
 
@@ -18,35 +19,39 @@ public class UsersServlet extends HttpServlet {
         httpServletRequest.getRequestDispatcher("registration.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
+    //Регистрация в системе
     public void doPost(HttpServletRequest httpServletRequest,
-                       HttpServletResponse httpServletResponse) throws ServletException, IOException {
+                       HttpServletResponse httpServletResponse) throws IOException {
         String email = httpServletRequest.getParameter("email");
         String login = httpServletRequest.getParameter("login");
         String pass = httpServletRequest.getParameter("pass");
 
-        if (email==null || login == null || pass == null) {
+        if (email.isEmpty() || login.isEmpty() || pass.isEmpty()) {
             httpServletResponse.setContentType("text/html;charset=utf-8");
-            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.getWriter().println("Отсутсвует email, логин или пароль");
             return;
         }
 
-        UserProfile profile = new UserProfile(login,pass,email);
-        if (AccountService.getUserByLogin(login)==null) {
+        UserProfile profile = new UserProfile(login, pass, email);
+        if (AccountService.getUserByLogin(login) == null) {
             AccountService.addNewUser(profile);
             AccountService.addSession(httpServletRequest.getSession().getId(), profile);
 
             // Создание новой папки для пользователя
             File folder = new File("C:\\Users\\Informant\\fileManager\\" + login);
             boolean isCreationSuccess = folder.mkdir();
-            if (!isCreationSuccess){
-                httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            //Скорее всего никогда не будет false, но если будет нехватать памяти или что-то ещё, то сработает
+            if (!isCreationSuccess) {
+                httpServletResponse.setContentType("text/html;charset=utf-8");
+                httpServletResponse.getWriter().println("Случилась ошибка при создании папки, попробуйте ещё раз");
+                return;
             }
 
             String currentURL = httpServletRequest.getRequestURL().toString();
-            httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL,"/manager"));
-        }
-        else {
-            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL, "/manager"));
+        } else {
+            httpServletResponse.setContentType("text/html;charset=utf-8");
+            httpServletResponse.getWriter().println("Пользователь с таким логином уже есть в системе");
         }
     }
 }

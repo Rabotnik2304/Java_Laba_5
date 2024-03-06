@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+
 @WebServlet(urlPatterns = {"/"})
 public class SessionsServlet extends HttpServlet {
     public void doGet(HttpServletRequest httpServletRequest,
@@ -16,28 +17,28 @@ public class SessionsServlet extends HttpServlet {
         httpServletRequest.getRequestDispatcher("log.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
-    //sign in
+    //Вход в систему
     public void doPost(HttpServletRequest httpServletRequest,
                        HttpServletResponse httpServletResponse) throws IOException {
         String login = httpServletRequest.getParameter("login");
         String pass = httpServletRequest.getParameter("pass");
 
-        if (login == null || pass == null) {
+        if (login.isEmpty() || pass.isEmpty()) {
             httpServletResponse.setContentType("text/html;charset=utf-8");
-            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.getWriter().println("Отсутсвует логин или пароль");
             return;
         }
 
         UserProfile profile = AccountService.getUserByLogin(login);
         if (profile == null || !profile.getPass().equals(pass)) {
             httpServletResponse.setContentType("text/html;charset=utf-8");
-            httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            httpServletResponse.getWriter().println("Неправильный логин или пароль");
             return;
         }
 
         AccountService.addSession(httpServletRequest.getSession().getId(), profile);
 
         String currentURL = httpServletRequest.getRequestURL().toString();
-        httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL,"/manager"));
+        httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL, "/manager"));
     }
 }

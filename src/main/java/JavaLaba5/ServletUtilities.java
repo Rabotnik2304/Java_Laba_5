@@ -1,7 +1,8 @@
 package JavaLaba5;
 
 public class ServletUtilities {
-    public static String makeNewUrl(String currentURL, String redirectPath){
+    //Просто утилитка, которая много где нужна. (При redirect-ах)
+    public static String makeNewUrl(String currentURL, String redirectPath) {
         // Находим позицию последнего слеша
         int lastSlashIndex = currentURL.lastIndexOf("/");
 

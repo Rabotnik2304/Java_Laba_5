@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AccountService {
+    //Сервис, что следит за регистрацией пользователей и их сессиями
     private static Map<String, UserProfile> loginToProfile = new HashMap<>(){{put("admin",new UserProfile("admin","123","AAAAAAAAAAAAAAA"));}};
     private static Map<String, UserProfile> sessionIdToProfile= new HashMap<>();;
 

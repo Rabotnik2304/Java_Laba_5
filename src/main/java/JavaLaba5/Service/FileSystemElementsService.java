@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FileSystemElementsService {
+    //Сервис, что предоставляет файлы и папки, для мэнеджера файлов.
     private static List<FileSystemElement> fileSystemElementsInCurrentDir = new ArrayList<>();
     private static String currentDirectoryPath = "";
     public static List<FileSystemElement> GetFileSystemElementsFromCurrentDir(String path) {

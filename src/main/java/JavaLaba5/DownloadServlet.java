@@ -12,12 +12,12 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/DownloadServlet"})
 public class DownloadServlet extends HttpServlet {
-
+    //Загрузчик
     @Override
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
-            throws IOException, ServletException {
+            throws IOException {
 
-        String currentFilePath=httpServletRequest.getParameter("path");
+        String currentFilePath = httpServletRequest.getParameter("path");
         try (FileInputStream fileInputStream = new FileInputStream(currentFilePath)) {
 
             // Устанавливаем заголовок для скачивания файла
