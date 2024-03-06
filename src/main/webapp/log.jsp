@@ -10,7 +10,7 @@
 <form action="log" method="POST">
     Login: <input type="text" name="login"/>
     Password: <input type="password" name="pass"/>
-    <input type="submit" value="Sign in">
+    <input type="submit" value="Войти">
 </form>
 <a href="registration">Зарегистрироваться</a>
 </body>

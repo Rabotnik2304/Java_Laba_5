@@ -6,6 +6,9 @@
     <title>Main page</title>
 </head>
 <body>
+<form action="manager" method="POST">
+    <input type="submit" value="Выйти" id="logoutButton">
+</form>
 <h2>Сгенерировано: ${generationTime}</h2>
 <h2>Список файлов и папок в текущей директории: ${currentDirPath}</h2>
 <c:url value="manager" var="upUrl">
@@ -21,6 +24,12 @@
         padding: 3px; /* Поля вокруг содержимого таблицы */
         border: 1px solid maroon; /* Параметры рамки */
         text-align: left; /* Выравнивание по левому краю */
+    }
+    #logoutButton {
+        float: right; /* Выравнивание кнопки вправо */
+        width: 120px; /* Ширина кнопки */
+        height: 40px;
+        font-size: 18px;
     }
 </style>
 <table>
@@ -50,15 +59,11 @@
                         <a href="${downloadUrl}" download>Скачать</a>
                     </c:otherwise>
                 </c:choose>
-
-
             </td>
             <td>${listElement.size}</td>
             <td>${listElement.date}</td>
         </tr>
     </c:forEach>
-
 </table>
-
 </body>
 </html>

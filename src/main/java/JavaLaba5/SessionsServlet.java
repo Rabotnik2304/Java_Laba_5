@@ -40,20 +40,4 @@ public class SessionsServlet extends HttpServlet {
         String currentURL = httpServletRequest.getRequestURL().toString();
         httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL,"/manager"));
     }
-    //sign out
-    public void doDelete(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
-        String sessionId = request.getSession().getId();
-        UserProfile profile = AccountService.getUserBySessionId(sessionId);
-        if (profile == null) {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        } else {
-            AccountService.deleteSession(sessionId);
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println("Goodbye!");
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-
-    }
 }

@@ -18,7 +18,7 @@
     Email: <input type="text" name="email"/>
     Login: <input type="text" name="login"/>
     Password: <input type="password" name="pass"/>
-    <input type="submit" value="Sign in">
+    <input type="submit" value="Зарегистрироваться">
 </form>
 <a href="log">Войти, если уже зарегистрирован.</a>
 </body>

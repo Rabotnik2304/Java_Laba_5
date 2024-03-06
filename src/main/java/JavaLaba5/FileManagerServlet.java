@@ -56,4 +56,13 @@ public class FileManagerServlet extends HttpServlet {
         httpServletRequest.setAttribute("generationTime", dateFormat.format(generationDate));
         httpServletRequest.getRequestDispatcher("manager.jsp").forward(httpServletRequest, httpServletResponse);
     }
+
+    //sign out
+    public void doPost(HttpServletRequest httpServletRequest,
+                       HttpServletResponse httpServletResponse) throws IOException {
+        String sessionId = httpServletRequest.getSession().getId();
+        AccountService.deleteSession(sessionId);
+        String currentURL = httpServletRequest.getRequestURL().toString();
+        httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL, "/log"));
+    }
 }
