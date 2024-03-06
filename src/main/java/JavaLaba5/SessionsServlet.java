@@ -9,9 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-@WebServlet(urlPatterns = {"/log"})
+@WebServlet(urlPatterns = {"/"})
 public class SessionsServlet extends HttpServlet {
-    //get logged user profile
     public void doGet(HttpServletRequest httpServletRequest,
                       HttpServletResponse httpServletResponse) throws ServletException, IOException {
         httpServletRequest.getRequestDispatcher("log.jsp").forward(httpServletRequest, httpServletResponse);
@@ -19,7 +18,7 @@ public class SessionsServlet extends HttpServlet {
 
     //sign in
     public void doPost(HttpServletRequest httpServletRequest,
-                       HttpServletResponse httpServletResponse) throws ServletException, IOException {
+                       HttpServletResponse httpServletResponse) throws IOException {
         String login = httpServletRequest.getParameter("login");
         String pass = httpServletRequest.getParameter("pass");
 
@@ -38,18 +37,9 @@ public class SessionsServlet extends HttpServlet {
 
         AccountService.addSession(httpServletRequest.getSession().getId(), profile);
 
-
         String currentURL = httpServletRequest.getRequestURL().toString();
-
-        // Находим позицию последнего слеша
-        int lastSlashIndex = currentURL.lastIndexOf("/");
-
-        // Формируем новый URL, заменяя последний элемент
-        String newURL = currentURL.substring(0, lastSlashIndex) + "/manager";
-
-        httpServletResponse.sendRedirect(newURL);
+        httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL,"/manager"));
     }
-
     //sign out
     public void doDelete(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {

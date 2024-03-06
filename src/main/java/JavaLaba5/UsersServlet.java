@@ -8,8 +8,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.File;
 import java.io.IOException;
-@WebServlet(urlPatterns = {"/"})
+@WebServlet(urlPatterns = {"/registration"})
 public class UsersServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest httpServletRequest,
@@ -33,6 +34,16 @@ public class UsersServlet extends HttpServlet {
         if (AccountService.getUserByLogin(login)==null) {
             AccountService.addNewUser(profile);
             AccountService.addSession(httpServletRequest.getSession().getId(), profile);
+
+            // Создание новой папки для пользователя
+            File folder = new File("C:\\Users\\Informant\\fileManager\\" + login);
+            boolean isCreationSuccess = folder.mkdir();
+            if (!isCreationSuccess){
+                httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+
+            String currentURL = httpServletRequest.getRequestURL().toString();
+            httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL,"/manager"));
         }
         else {
             httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);

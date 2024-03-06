@@ -14,11 +14,12 @@
 <body>
 <p>Регистрация нового пользователя системы</p>
 
-<form action="manager" method="GET">
+<form action="registration" method="POST">
     Email: <input type="text" name="email"/>
     Login: <input type="text" name="login"/>
     Password: <input type="password" name="pass"/>
     <input type="submit" value="Sign in">
 </form>
+<a href="log">Войти, если уже зарегистрирован.</a>
 </body>
 </html>

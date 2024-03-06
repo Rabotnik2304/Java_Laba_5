@@ -20,7 +20,7 @@ public class Directory extends FileSystemElement{
     }
     @Override
     public String getPath() {
-        return path+"/"+name;
+        return path+"\\"+name;
     }
     @Override
     public String getSize() {

@@ -27,6 +27,6 @@ public class File extends FileSystemElement{
     }
     @Override
     public String getPath() {
-        return path+"/"+name;
+        return path+"\\"+name;
     }
 }
