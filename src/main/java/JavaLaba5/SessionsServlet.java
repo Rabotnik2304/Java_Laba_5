@@ -36,7 +36,8 @@ public class SessionsServlet extends HttpServlet {
             return;
         }
 
-        AccountService.addSession(httpServletRequest.getSession().getId(), profile);
+        httpServletRequest.getSession().setAttribute("login",login);
+        httpServletRequest.getSession().setAttribute("pass",pass);
 
         String currentURL = httpServletRequest.getRequestURL().toString();
         httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL, "/manager"));

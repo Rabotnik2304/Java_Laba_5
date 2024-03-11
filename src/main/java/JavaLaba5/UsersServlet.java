@@ -35,7 +35,9 @@ public class UsersServlet extends HttpServlet {
         UserProfile profile = new UserProfile(login, pass, email);
         if (AccountService.getUserByLogin(login) == null) {
             AccountService.addNewUser(profile);
-            AccountService.addSession(httpServletRequest.getSession().getId(), profile);
+
+            httpServletRequest.getSession().setAttribute("login",login);
+            httpServletRequest.getSession().setAttribute("pass",pass);
 
             // Создание новой папки для пользователя
             File folder = new File("C:\\Users\\Informant\\fileManager\\" + login);

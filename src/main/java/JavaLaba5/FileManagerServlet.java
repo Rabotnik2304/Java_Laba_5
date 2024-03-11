@@ -21,15 +21,17 @@ public class FileManagerServlet extends HttpServlet {
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws IOException, ServletException {
 
-        UserProfile currentUser = AccountService.getUserBySessionId(httpServletRequest.getSession().getId());
-        if (currentUser == null) {
+        String login = (String)httpServletRequest.getSession().getAttribute("login");
+        String pass = (String)httpServletRequest.getSession().getAttribute("pass");
+
+        if (AccountService.getUserByLogin(login)==null || !AccountService.getUserByLogin(login).getPass().equals(pass)) {
             String currentURL = httpServletRequest.getRequestURL().toString();
             httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL, "/log"));
             return;
         }
 
         String currentDirPath;
-        String pathToUserDir = "C:\\Users\\Informant\\fileManager\\" + currentUser.getLogin();
+        String pathToUserDir = "C:\\Users\\Informant\\fileManager\\" + login;
         String pathFromRequest = httpServletRequest.getParameter("path");
         if (httpServletRequest.getParameter("path") != null) {
             if (!pathFromRequest.startsWith(pathToUserDir)) {
@@ -61,8 +63,9 @@ public class FileManagerServlet extends HttpServlet {
     //Выход из системы
     public void doPost(HttpServletRequest httpServletRequest,
                        HttpServletResponse httpServletResponse) throws IOException {
-        String sessionId = httpServletRequest.getSession().getId();
-        AccountService.deleteSession(sessionId);
+        httpServletRequest.getSession().removeAttribute("login");
+        httpServletRequest.getSession().removeAttribute("pass");
+
         String currentURL = httpServletRequest.getRequestURL().toString();
         httpServletResponse.sendRedirect(ServletUtilities.makeNewUrl(currentURL, "/log"));
     }
